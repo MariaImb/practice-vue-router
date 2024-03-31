@@ -11,7 +11,12 @@ getData("https://pokeapi.co/api/v2/pokemon");
 <template>
     <div class="pokemons-container">
         <h1>Pokemones</h1>
-        <v-alert v-if="error" :text=error type="error" class="error-container"></v-alert>
+        <v-alert
+            v-if="error"
+            :text="error"
+            type="error"
+            class="error-container"
+        ></v-alert>
         <v-progress-circular v-if="loading" indeterminate></v-progress-circular>
         <div v-if="data">
             <ul>
@@ -21,6 +26,8 @@ getData("https://pokeapi.co/api/v2/pokemon");
                     </RouterLink>
                 </li>
             </ul>
+            <v-btn :disabled="!data.previous" @click="getData(data.previous)"> Previous </v-btn>
+            <v-btn :disabled="!data.next" @click="getData(data.next)"> Next </v-btn>
         </div>
     </div>
 </template>

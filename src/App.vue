@@ -14,6 +14,11 @@ import { RouterLink, RouterView } from "vue-router";
                     >Pokemones</v-btn
                 ></RouterLink
             >
+            <RouterLink to="/favoritos"
+                ><v-btn variant="text" class="btn-link"
+                    >Favoritos</v-btn
+                ></RouterLink
+            >
         </v-app-bar>
         <RouterView />
     </v-app>

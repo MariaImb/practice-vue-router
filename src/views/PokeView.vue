@@ -1,14 +1,15 @@
 <script setup>
-import axios from "axios";
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useGetData } from "../composables/getData";
+import { useFavoritosStore } from "@/store/favoritos";
 
 const route = useRoute();
 const router = useRouter();
-const pokemon = ref({});
 
-const { getData, data, loading, error } = useGetData();
+const { getData, data, loading } = useGetData();
+const  useFavoritos = useFavoritosStore()
+const {add, findPoke} = useFavoritos
 
 const back = () => {
     router.push("/pokemons");
@@ -16,17 +17,6 @@ const back = () => {
 
 getData(`https://pokeapi.co/api/v2/pokemon/${route.params.name}`);
 
-// const getPokemon = async () => {
-//     try {
-//         const data = await axios.get(`https://pokeapi.co/api/v2/pokemon/${route.params.name}`);
-//         pokemon.value = data.data
-//         console.log(data.data)
-//     } catch (error) {
-//         console.error(error);
-//     }
-// };
-
-// getPokemon();
 </script>
 
 <template>
@@ -34,14 +24,17 @@ getData(`https://pokeapi.co/api/v2/pokemon/${route.params.name}`);
     <div v-if="data" class="poke-container">
         <img :src="data.sprites?.front_default" class="poke-img" />
         <h1>Poke name: {{ $route.params.name }}</h1>
+        <v-btn :disabled="findPoke(data.name)" @click="add(data)" class="volver-btn">Agregar a Favorito 
+        </v-btn>
+ 
     </div>
 
-    <button @click="back" class="volver-btn">Volver</button>
+    <v-btn @click="back" class="volver-btn">Volver</v-btn>
 </template>
 
 <style scoped>
 .volver-btn {
-    width: 100px;
+    width: 200px;
 }
 
 .poke-img {
